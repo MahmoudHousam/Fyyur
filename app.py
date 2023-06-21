@@ -290,7 +290,7 @@ def delete_venue(venue_id):
 def artists():
   # TODO: replace with real data returned from querying the database
   artist = Artist
-  data = db.session.query(artist.id, artist.name)
+  data = db.session.query(artist.id, artist.name).all()
   return render_template('pages/artists.html', artists=data)
 
 @app.route('/artists/search', methods=['POST'])

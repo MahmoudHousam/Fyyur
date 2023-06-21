@@ -76,8 +76,8 @@ artists = [
         state = "CA",
         phone = "432-325-5432",
         image_link = "https://images.unsplash.com/photo-1558369981-f9ca78462e61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=794&q=80",
-        facebook_link = "No Facebook Link",
-        website_link = "No Webiste",
+        facebook_link = "",
+        website_link = "",
         genres = ["JAZZ", "CLASSICAL"],
         seeking_description = "",
         looking_for_venue = False,
@@ -90,7 +90,7 @@ artists = [
         phone = "300-400-5000",
         image_link = "https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80",
         facebook_link = "https://www.facebook.com/mattquevedo923251523",
-        website_link = "No Website",
+        website_link = "",
         genres = ["JAZZ"],
         seeking_description = "",
         looking_for_venue = False,
@@ -103,8 +103,8 @@ artists = [
 def push_data(model, data):
     error = False
     try:
-        for artist in artists:
-            art = Artist(**artist)
+        for dict in data:
+            art = model(**dict)
             db.session.add(art)
             db.session.commit()
     except Exception:
@@ -114,4 +114,5 @@ def push_data(model, data):
     finally:
         db.session.close()
 
+push_data(Venue, venues)
 push_data(Artist, artists)
