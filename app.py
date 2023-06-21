@@ -122,7 +122,7 @@ def venues():
   locations = venue.query.order_by(venue.city, venue.state).all()
   data = []
   for location in locations:
-    location_venues = venue.query.filter_by(state=location.city).filter_by(state=locations.state).all()
+    location_venues = venue.query.filter_by(state=location.city).filter_by(state=location.state).all()
     data.append(
       {
       "city": location.city,
