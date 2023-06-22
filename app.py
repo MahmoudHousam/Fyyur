@@ -78,7 +78,7 @@ class Artist(db.Model):
       
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 class Show(db.Model):
-  __tablename__ = "show"
+  __tablename__ = "Show"
   id = db.Column(db.Integer, primary_key=True)
   venue_id = db.Column(db.Integer, db.ForeignKey("Venue.id"), nullable=False)
   artist_id = db.Column(db.Integer, db.ForeignKey("Artist.id"), nullable=False)
@@ -117,27 +117,32 @@ def index():
 def venues():
   # TODO: replace with real venues data.
   #       num_upcoming_shows should be aggregated based on number of upcoming shows per venue.
-  venue = Venue
-  show = Show
-  locations = venue.query.order_by(venue.city, venue.state).all()
   data = []
+  locations = Venue.query.order_by(Venue.state, Venue.city).all()
+
   for location in locations:
-    location_venues = venue.query.filter_by(state=location.city).filter_by(state=location.state).all()
-    data.append(
-      {
-      "city": location.city,
-      "state": location.state,
-      "venues": [{
-        "id": venue.id,
-        "name": venue.name,
-        "num_upcoming_shows": len(
-          db.session.query(show).filter(show.venue_id == venue.id).filter(show.start_time > datetime.now()).all()
-        )
-      }
-      for venue in location_venues
+      location_venues = Venue.query.filter_by(state=location.state).filter_by(city=location.city).all()
+      venue = [
+        {
+          'id': location_venue.id,
+          'name': location_venue.name,
+          'num_upcoming_shows': len(
+            (
+              db.session.query(Show)
+              .filter(Show.venue_id == location_venue.id)
+              .filter(Show.start_time > datetime.now())
+              .all()
+            )
+          )
+        }
+        for location_venue in location_venues
       ]
-      }
-    )
+
+      data.append({
+          "city": location.city,
+          "state": location.state,
+          "venues": venue
+      })
   return render_template('pages/venues.html', areas=data);
 
 @app.route('/venues/search', methods=['POST'])
@@ -185,8 +190,8 @@ def show_venue(venue_id):
   upcoming_shows = [
     {
         'artist_id': show.artist_id,
-        'artist_name': show.name,
-        'artist_image_link': show.image_link,
+        'artist_name': show.artist.name,
+        'artist_image_link': show.artist.image_link,
         'start_time': show.start_time.strftime('%Y-%m-%d %H:%M:%S')
     }
     for show in upcoming
@@ -335,8 +340,8 @@ def show_artist(artist_id):
   past_show_lst = [
     {
       "venue_id": past_show.id,
-      "venue_name": past_show.name,
-      "venue_image_link": past_show.image_link,
+      "venue_name": past_show.venue.name,
+      "venue_image_link": past_show.venue.image_link,
       "start_time": past_show.start_time.strftime('%Y-%m-%d %H:%M:%S')
     }
     for past_show in past_shows 
@@ -345,8 +350,8 @@ def show_artist(artist_id):
   upcoming_show_lst = [
     {
       "venue_id": upcoming_show.id,
-      "venue_name": upcoming_show.name,
-      "venue_image_link": upcoming_show.image_link,
+      "venue_name": upcoming_show.venue.name,
+      "venue_image_link": upcoming_show.venue.image_link,
       "start_time": upcoming_show.start_time.strftime('%Y-%m-%d %H:%M:%S')
     }
     for upcoming_show in upcoming_shows 

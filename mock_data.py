@@ -97,6 +97,27 @@ artists = [
     )
 ]
 
+
+shows = [
+    dict(
+        id = 1,
+        venue_id = 1,
+        artist_id = 1,
+        start_time = "2019-05-21T21:30:00.000Z"
+    ),
+    dict(
+        id = 2,
+        venue_id = 2,
+        artist_id = 2,
+        start_time = "2019-06-15T23:00:00.000Z"
+    ),
+    dict(
+        id = 3,
+        venue_id = 3,
+        artist_id = 3,
+        start_time = "2035-04-01T20:00:00.000Z"
+    ),
+]
 # with app.app_context():
 #     db.create_all()
 
@@ -116,3 +137,5 @@ def push_data(model, data):
 
 push_data(Venue, venues)
 push_data(Artist, artists)
+push_data(Show, shows)
+
