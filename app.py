@@ -342,7 +342,6 @@ def create_artist_submission():
       db.session.close()
       if error:
           flash('An error occurred: Artist ' + request.form['name'] + ' could not be listed')
-          # TODO: on unsuccessful db insert, flash an error instead.
       else:
           flash('Artist ' + request.form['name'] + ' was successfully listed!')
   
@@ -354,8 +353,6 @@ def create_artist_submission():
 
 @app.route('/shows')
 def shows():
-  # displays list of shows at /shows
-  # TODO: replace with real venues data.
   shows = (
     db.session
     .query(Show)
@@ -385,8 +382,6 @@ def create_shows():
 
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
-    # called to create new shows in the db, upon submitting new show listing form
-    # TODO: insert form data as a new Show record in the db, instead
     error = False
     try:
         show = Show(
@@ -439,9 +434,3 @@ if not app.debug:
 if __name__ == '__main__':
     app.run()
 
-# Or specify port manually:
-'''
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
-'''
