@@ -7,11 +7,13 @@ import babel
 import logging
 from forms import *
 import dateutil.parser
+from flask_migrate import Migrate
 from logging import Formatter, FileHandler
 from helpers import get_past_upcoming_shows
 from data_models import Artist, Venue, Show, app, db
 from flask import render_template, request, flash, redirect, url_for
 
+migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 # Filters.
 #----------------------------------------------------------------------------#
@@ -82,7 +84,36 @@ def search_venues():
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
   venue = Venue.query.get(venue_id)
-  past_shows, upcoming_shows = get_past_upcoming_shows(venue_id)
+  now = datetime.now()
+  past_shows = db.session.query(Show).join(Artist).filter(
+      Show.venue_id == venue_id,
+      Show.start_time < now
+  ).all()
+  
+  upcoming_shows = db.session.query(Show).join(Artist).filter(
+      Show.venue_id == venue_id,
+      Show.start_time >= now
+  ).all()
+  past_shows_ls = [
+        {
+            "artist_id": show.artist_id,
+            "artist_name": show.artist.name,
+            "artist_image_link": show.artist.image_link,
+            'start_time': show.start_time.isoformat()
+        }
+        for show in past_shows
+    ]
+  
+  upcoming_shows_ls = [
+        {
+            "artist_id": show.artist_is,
+            "artist_name": show.artist.name,
+            "artist_image_link": show.artist.image_link,
+            'start_time': show.start_time.isoformat()
+        }
+        for show in upcoming_shows
+    ]
+  # past_shows, upcoming_shows = get_past_upcoming_shows(venue_id, "venue")
   datetime
 
   data = {
@@ -98,10 +129,10 @@ def show_venue(venue_id):
       'looking_for_talent': venue.looking_for_talent,
       'seeking_description': venue.seeking_description,
       'image_link': venue.image_link,
-      'past_shows': past_shows,
-      'upcoming_shows': upcoming_shows,
-      'past_shows_count': len(past_shows),
-      'upcoming_shows_count': len(upcoming_shows),
+      'past_shows': past_shows_ls,
+      'upcoming_shows': upcoming_shows_ls,
+      'past_shows_count': len(past_shows_ls),
+      'upcoming_shows_count': len(upcoming_shows_ls),
   }
   return render_template('pages/show_venue.html', venue=data)
 
@@ -190,7 +221,36 @@ def search_artists():
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
   artist = Artist.query.get(artist_id)
-  past_shows, upcoming_shows = get_past_upcoming_shows(artist_id)
+  now = datetime.now()
+  past_shows = db.session.query(Show).join(Artist).filter(
+      Show.venue_id == artist_id,
+      Show.start_time < now
+  ).all()
+  
+  upcoming_shows = db.session.query(Show).join(Artist).filter(
+      Show.venue_id == artist_id,
+      Show.start_time >= now
+  ).all()
+  past_shows = [
+        {
+            "venue_id": show.venue_id,
+            "venue_name": show.venue.name,
+            "venue_image_link": show.venue.image_link,
+            'start_time': show.start_time.isoformat()
+        }
+        for show in past_shows
+    ]
+  
+  upcoming_shows = [
+        {
+            "venue_id": show.venue_id,
+            "venue_name": show.venue.name,
+            "venue_image_link": show.venue.image_link,
+            'start_time': show.start_time.isoformat()
+        }
+        for show in upcoming_shows
+    ]
+  # past_shows, upcoming_shows = get_past_upcoming_shows(artist_id, "artist")
   data = {
     "id": artist.id,
     "name": artist.name,
