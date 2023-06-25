@@ -160,7 +160,11 @@ def create_venue_submission():
       venue.phone = request.form['phone']
       venue.genres = request.form.getlist('genres')
       venue.facebook_link = request.form['facebook_link']
-
+      venue.image_link = request.form['image_link']
+      venue.website_link = request.form['webiste_link']
+      venue.seeking_description = request.form["seeking_description"]
+      venue.looking_for_talent = "seeking_talent" in request.form
+      
       db.session.add(venue)
       db.session.commit()
 
@@ -402,6 +406,7 @@ def create_artist_submission():
       artist.genres = request.form.getlist("genres")
       artist.facebook_link = request.form["facebook_link"]
       artist.image_link = request.form["image_link"],
+      artist.website_link = request.form["website_link"],
       artist.looking_for_venue = "seeking_venue" in request.form,
       artist.seeking_description=request.form["seeking_description"]
 

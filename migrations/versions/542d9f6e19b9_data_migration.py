@@ -1,8 +1,8 @@
-"""re-migrate data
+"""data migration
 
-Revision ID: cc8f0fe3ed11
+Revision ID: 542d9f6e19b9
 Revises: 
-Create Date: 2023-06-25 22:39:01.162331
+Create Date: 2023-06-26 01:29:39.890016
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cc8f0fe3ed11'
+revision = '542d9f6e19b9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,7 +29,7 @@ def upgrade():
     sa.Column('website_link', sa.String(length=250), nullable=True),
     sa.Column('genres', sa.ARRAY(sa.String(length=120)), nullable=False),
     sa.Column('seeking_description', sa.String(length=120), nullable=True),
-    sa.Column('looking_for_venue', sa.Boolean(), nullable=True),
+    sa.Column('looking_for_venue', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('Venue',
@@ -44,7 +44,7 @@ def upgrade():
     sa.Column('website_link', sa.String(length=250), nullable=True),
     sa.Column('genres', sa.ARRAY(sa.String(length=120)), nullable=False),
     sa.Column('seeking_description', sa.String(length=120), nullable=True),
-    sa.Column('looking_for_talent', sa.Boolean(), nullable=True),
+    sa.Column('looking_for_talent', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('Show',
