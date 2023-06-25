@@ -10,7 +10,7 @@ import dateutil.parser
 from flask_migrate import Migrate
 from logging import Formatter, FileHandler
 from helpers import get_past_upcoming_shows
-from data_models import Artist, Venue, Show, app, db
+from models import Artist, Venue, Show, app, db
 from flask import render_template, request, flash, redirect, url_for
 
 
@@ -110,7 +110,7 @@ def show_venue(venue_id):
   
   upcoming_shows_ls = [
         {
-            "artist_id": show.artist_is,
+            "artist_id": show.artist_id,
             "artist_name": show.artist.name,
             "artist_image_link": show.artist.image_link,
             'start_time': show.start_time.isoformat()
