@@ -13,6 +13,7 @@ from helpers import get_past_upcoming_shows
 from data_models import Artist, Venue, Show, app, db
 from flask import render_template, request, flash, redirect, url_for
 
+
 migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 # Filters.
@@ -52,7 +53,6 @@ def venues():
       }
       venues = Venue.query.filter_by(city=location.city, state=location.state).all()
       for venue in venues:
-          global num_upcoming_shows
           num_upcoming_shows = Show.query.filter_by(venue_id=venue.id).filter(Show.start_time > datetime.now()).count()
           location_data['venues'].append({
               'id': venue.id,
@@ -70,7 +70,11 @@ def search_venues():
     {
       "id": venue.id,
       "name": venue.name,
-      "num_upcoming_shows": num_upcoming_shows
+      "num_upcoming_shows": (
+        Show.query.filter_by(venue_id=venue.id)
+        .filter(Show.start_time > datetime.now())
+        .count()
+      ),
     }
     for venue in venue_results
   ]
@@ -204,11 +208,21 @@ def artists():
 def search_artists():
   search_term = request.form.get("search_term", "")
   artists_search = db.session.query(Artist).filter(Artist.name.ilike(f'%{search_term}%')).all()
+  query = """
+          select id, name
+          from public.'Artist'
+          where name like '%{search_item}%'
+          """
+  # engine = create_engine()
   data = [
     {
       "id": artist.id,
       "name": artist.name,
-      "num_upcomming_shows": num_upcoming_shows,
+      "num_upcomming_shows": (
+        Show.query.filter_by(venue_id=artist.id)
+        .filter(Show.start_time > datetime.now())
+        .count()
+      ),
     }
     for artist in artists_search
   ]
