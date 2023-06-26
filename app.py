@@ -154,17 +154,17 @@ def create_venue_submission():
   if form.validate():
     try:
         venue = Venue(
-          name = request.form['name'],
-          city = request.form['city'],
-          state = request.form['state'],
-          address = request.form['address'],
-          phone = request.form['phone'],
-          genres = request.form.getlist('genres'),
-          facebook_link = request.form['facebook_link'],
-          image_link = request.form['image_link'],
-          website_link = request.form['webiste_link'],
-          seeking_description = request.form["seeking_description"],
-          seeking_talent = "seeking_talent" in request.form,
+          name = form.name.data,
+          city = form.city.data,
+          state = form.state.data,
+          address = form.address.data,
+          phone = form.phone.data,
+          genres = form.genres.data,
+          facebook_link = form.facebook_link.data,
+          image_link = form.image_link.data,
+          website_link = form.webiste_link.data,
+          seeking_description = form.seeking_description.data,
+          seeking_talent = "seeking_talent" in form.seeking_talent.data,
         )
         
         db.session.add(venue)
@@ -175,9 +175,9 @@ def create_venue_submission():
         print(sys.exc_info())
     finally:
         db.session.close()
-        flash('Venue ' + request.form['name'] + ' was successfully listed!')
+        flash(f'Venue {form.name.data} was successfully listed!')
   else:
-    flash('An error occurred: Venue ' + request.form['name'] + ' could not be listed')
+    flash(f'An error occurred: Venue {form.name.data} could not be listed')
     form = VenueForm()
   return render_template('pages/home.html')
 
@@ -385,7 +385,6 @@ def edit_venue_submission(venue_id):
       flash('An error occurred: Venue ' + request.form['name'] + ' could not be listed')
     else:
       flash('Venue ' + request.form['name'] + ' was successfully listed!')
-  return redirect(url_for('show_artist', venue_id=venue_id))
 
 #  Create Artist
 #  ----------------------------------------------------------------
@@ -401,16 +400,16 @@ def create_artist_submission():
   if form.validate():
     try:
         artist = Artist(
-          name = request.form["name"],
-          city = request.form["city"],
-          state = request.form["state"],
-          phone = request.form["phone"],
-          genres = request.form.getlist("genres"),
-          facebook_link = request.form["facebook_link"],
-          image_link = request.form["image_link"],
-          website_link = request.form["website_link"],
-          seeking_venue = "seeking_venue" in request.form,
-          seeking_description=request.form["seeking_description"],
+          name = form.nam.data,
+          city = form.cit.data,
+          state = form.stat.data,
+          phone = form.phon.data,
+          genres = form.genres.data,
+          facebook_link = form.facebook_lin.data,
+          image_link = form.image_lin.data,
+          website_link = form.website_lin.data,
+          seeking_venue = "seeking_venue" in form.seeking_venue.data,
+          seeking_description= form.seeking_description.data,
         )
 
         db.session.add(artist)
@@ -422,9 +421,9 @@ def create_artist_submission():
         print(sys.exc_info())
     finally:
         db.session.close()
-        flash('Artist ' + request.form['name'] + ' was successfully listed!')
+        flash(f'Artist {form.name.data} was successfully listed!')
   else:
-      flash('An error occurred: Artist ' + request.form['name'] + ' could not be listed')
+      flash(f'An error occurred: Artist {form.name.data} could not be listed')
       form = VenueForm()
   return render_template('pages/home.html')
 
@@ -466,9 +465,9 @@ def create_show_submission():
     error = False
     try:
         show = Show(
-            artist_id=request.form['artist_id'],
-            venue_id=request.form['venue_id'],
-            start_time=request.form['start_time']
+            artist_id=['form.artist_id'],
+            venue_id=['form.venue_id'],
+            start_time=['form.start_time']
         )
 
         db.session.add(show)
