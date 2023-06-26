@@ -212,12 +212,6 @@ def artists():
 def search_artists():
   search_term = request.form.get("search_term", "")
   artists_search = db.session.query(Artist).filter(Artist.name.ilike(f'%{search_term}%')).all()
-  query = """
-          select id, name
-          from public.'Artist'
-          where name like '%{search_item}%'
-          """
-  # engine = create_engine()
   data = [
     {
       "id": artist.id,
