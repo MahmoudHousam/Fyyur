@@ -22,7 +22,7 @@ venues = [
         phone="123-123-1234",
         website_link="https://www.themusicalhop.com",
         facebook_link="https://www.facebook.com/TheMusicalHop",
-        looking_for_talent=True,
+        seeking_talent=True,
         seeking_description="We are on the lookout for a local artist to play every two weeks. Please call us.",
         image_link="https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
     ),
@@ -36,7 +36,7 @@ venues = [
         phone="415-000-1234",
         website_link="https://www.parksquarelivemusicandcoffee.com",
         facebook_link="https://www.facebook.com/ParkSquareLiveMusicAndCoffee",
-        looking_for_talent=False,
+        seeking_talent=False,
         seeking_description="",
         image_link="https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=747&q=80"
     ),
@@ -50,7 +50,7 @@ venues = [
         phone="914-003-1132",
         website_link="https://www.theduelingpianos.com",
         facebook_link="https://www.facebook.com/theduelingpianos",
-        looking_for_talent=False,
+        seeking_talent=False,
         seeking_description="",
         image_link="https://images.unsplash.com/photo-1497032205916-ac775f0649ae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
     )
@@ -67,7 +67,7 @@ artists = [
         website_link = "https://www.gunsnpetalsband.com",
         genres = ["ROCK N ROLL"],
         seeking_description = "Looking for shows to perform at in the San Francisco Bay Area!",
-        looking_for_venue = True,
+        seeking_venue = True,
     ),
     dict(
         id = 2,
@@ -80,7 +80,7 @@ artists = [
         website_link = "",
         genres = ["JAZZ", "CLASSICAL"],
         seeking_description = "",
-        looking_for_venue = False,
+        seeking_venue = False,
     ),
     dict(
         id = 3,
@@ -93,7 +93,7 @@ artists = [
         website_link = "",
         genres = ["JAZZ"],
         seeking_description = "",
-        looking_for_venue = False,
+        seeking_venue = False,
     )
 ]
 
