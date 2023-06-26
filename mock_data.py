@@ -13,7 +13,7 @@ app.app_context().push()
 
 venues = [
     dict(
-        id=1,
+        id=10,
         name="The Musical Hop",
         genres=["Jazz", "Reggae", "Swing", "Classical", "Folk"],
         address="1015 Folsom Street",
@@ -27,7 +27,7 @@ venues = [
         image_link="https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
     ),
     dict(
-        id=2,
+        id=11,
         name="Park Square Live Music & Coffee",
         genres=["ROCK N ROLL", "JAZZ", "CLASSICAL", "FOLK"],
         address="1015 Folsom Street",
@@ -41,7 +41,7 @@ venues = [
         image_link="https://images.unsplash.com/photo-1485686531765-ba63b07845a7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=747&q=80"
     ),
     dict(
-        id=3,
+        id=12,
         name="THE DUELING PIANOS BAR",
         genres=["CLASSICAL", "R&B", "HIP-HOP"],
         address="335 Delancey Street",
@@ -57,7 +57,7 @@ venues = [
 ]
 artists = [
     dict(
-        id = 1,
+        id = 10,
         name = "GUNS N PETALS",
         city = "San Francisco",
         state = "CA",
@@ -70,7 +70,7 @@ artists = [
         seeking_venue = True,
     ),
     dict(
-        id = 2,
+        id = 11,
         name = "THE WILD SAX BAND",
         city = "San Francisco",
         state = "CA",
@@ -83,7 +83,7 @@ artists = [
         seeking_venue = False,
     ),
     dict(
-        id = 3,
+        id = 12,
         name = "MATT QUEVEDO",
         city = "New York",
         state = "NY",
@@ -100,21 +100,21 @@ artists = [
 
 shows = [
     dict(
-        id = 1,
-        venue_id = 1,
-        artist_id = 1,
+        id = 10,
+        venue_id = 10,
+        artist_id = 10,
         start_time = "2019-05-21T21:30:00.000Z"
     ),
     dict(
-        id = 2,
-        venue_id = 2,
-        artist_id = 2,
+        id = 11,
+        venue_id = 11,
+        artist_id = 11,
         start_time = "2019-06-15T23:00:00.000Z"
     ),
     dict(
-        id = 3,
-        venue_id = 3,
-        artist_id = 3,
+        id = 12,
+        venue_id = 12,
+        artist_id = 12,
         start_time = "2035-04-01T20:00:00.000Z"
     ),
 ]

@@ -162,20 +162,19 @@ def create_venue_submission():
           genres = form.genres.data,
           facebook_link = form.facebook_link.data,
           image_link = form.image_link.data,
-          website_link = form.webiste_link.data,
+          website_link = form.website_link.data,
           seeking_description = form.seeking_description.data,
-          seeking_talent = "seeking_talent" in form.seeking_talent.data,
+          seeking_talent = form.seeking_talent.data,
         )
         
         db.session.add(venue)
         db.session.commit()
-
+        flash(f'Venue {form.name.data} was successfully listed!')
     except Exception:
         db.session.rollback()
         print(sys.exc_info())
     finally:
         db.session.close()
-        flash(f'Venue {form.name.data} was successfully listed!')
   else:
     flash(f'An error occurred: Venue {form.name.data} could not be listed')
     form = VenueForm()
@@ -400,28 +399,27 @@ def create_artist_submission():
   if form.validate():
     try:
         artist = Artist(
-          name = form.nam.data,
-          city = form.cit.data,
-          state = form.stat.data,
-          phone = form.phon.data,
+          name = form.name.data,
+          city = form.city.data,
+          state = form.state.data,
+          phone = form.phone.data,
           genres = form.genres.data,
-          facebook_link = form.facebook_lin.data,
-          image_link = form.image_lin.data,
-          website_link = form.website_lin.data,
-          seeking_venue = "seeking_venue" in form.seeking_venue.data,
+          facebook_link = form.facebook_link.data,
+          image_link = form.image_link.data,
+          website_link = form.website_link.data,
+          seeking_venue = form.seeking_venue.data,
           seeking_description= form.seeking_description.data,
         )
 
         db.session.add(artist)
         db.session.commit()
-
+        flash(f'Artist {form.name.data} was successfully listed!')
     except Exception:
         error = True
         db.session.rollback()
         print(sys.exc_info())
     finally:
         db.session.close()
-        flash(f'Artist {form.name.data} was successfully listed!')
   else:
       flash(f'An error occurred: Artist {form.name.data} could not be listed')
       form = VenueForm()
@@ -462,30 +460,28 @@ def create_shows():
 
 @app.route('/shows/create', methods=['POST'])
 def create_show_submission():
-    error = False
+  form = ShowForm(request.form, meta={'csrf': False})
+  if form.validate():
     try:
         show = Show(
-            artist_id=['form.artist_id'],
-            venue_id=['form.venue_id'],
-            start_time=['form.start_time']
+            artist_id = form.artist_id.data,
+            venue_id = form.venue_id.data,
+            start_time = form.start_time.data
         )
 
         db.session.add(show)
         db.session.commit()
+        
+        flash('Show was successfully listed.')
     except Exception:
-        error = True
         db.session.rollback()
         print(sys.exc_info())
     finally:
         db.session.close()
-        if error:
-            flash('An error occurred. Show could not be listed.')
-        else:
-            flash('Show was successfully listed.')
-
-    # on successful db insert, flash success
-    flash('Show was successfully listed!')
-    return render_template('pages/home.html')
+            
+  else:
+      flash('An error occurred. Show could not be listed.')
+  return render_template('pages/home.html')
 
 @app.errorhandler(404)
 def not_found_error(error):
